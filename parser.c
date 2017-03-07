@@ -64,6 +64,33 @@ void parse_file ( char * filename,
   
   while ( fgets(line, 255, f) != NULL ) {
     line[strlen(line)-1]='\0';
-    printf(":%s:\n",line);
+    printf(":%s:\n",line);struct matrix *m = new_matrix(4,4);
+    char * str;
+    str = strsep(&line, " ");
+    //while( (str = strsep(&line," ")) != NULL ){
+    
+    if(strcmp(str,"move") == 0){
+      
+    }else if(strcmp(str,"scale") == 0){
+
+    }else if(strcmp(str,"rotate") == 0){
+
+    }else if(strcmp(str,"line") == 0){
+
+    }else if(strcmp(str,"apply") == 0){
+
+    }else if(strcmp(str,"ident") == 0){
+
+    }else if(strcmp(str,"display") == 0){
+
+    }else if(strcmp(str,"save") == 0){
+
+    }else if(strcmp(str,"quit") == 0){
+
+    }else{
+      printf("THIS COMMAND IS BULLSHIT");
+    }
+    
+	     }
   }
 }

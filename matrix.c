@@ -13,7 +13,13 @@ Returns: The translation matrix created using x, y and z
 as the translation offsets.
 ====================*/
 struct matrix * make_translate(double x, double y, double z) {
-  return NULL;
+  struct matrix *m = new_matrix(4,4);
+  ident(m);
+  m->m[0][3] = x;
+  m->m[1][3] = y;
+  m->m[2][3] = z;
+  return m;
+
 }
 
 /*======== struct matrix * make_scale() ==========
@@ -24,7 +30,12 @@ Returns: The translation matrix creates using x, y and z
 as the scale factors
 ====================*/
 struct matrix * make_scale(double x, double y, double z) {
-  return NULL;
+  struct matrix *m = new_matrix(4,4);
+  ident(m);
+  m->m[0][0] = x;
+  m->m[1][1] = y;
+  m->m[2][2] = z;
+  return m;
 }
 
 /*======== struct matrix * make_rotX() ==========
