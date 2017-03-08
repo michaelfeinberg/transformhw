@@ -64,31 +64,54 @@ void parse_file ( char * filename,
   
   while ( fgets(line, 255, f) != NULL ) {
     line[strlen(line)-1]='\0';
-    printf(":%s:\n",line);struct matrix *m = new_matrix(4,4);
+    printf(":%s:\n",line);
     char * str;
     str = strsep(&line, " ");
     //while( (str = strsep(&line," ")) != NULL ){
     
     if(strcmp(str,"move") == 0){
-      
+      if( fgets(line,255,f) != NULL ){
+	double tx,ty,tz;
+      }else{
+
+      }      
     }else if(strcmp(str,"scale") == 0){
+      if( fgets(line,255,f) != NULL ){
+	double sx,sy,sz;
+      }else{
+
+      }
 
     }else if(strcmp(str,"rotate") == 0){
+      if( fgets(line,255,f) != NULL ){
+	char axis;
+	int theta;
+      }else{
+
+      }
 
     }else if(strcmp(str,"line") == 0){
-
+      if( fgets(line,255,f) != NULL ){
+	double x0,y0,z0,x1,y1,z1;
+	
+      }else{
+	
+      }
     }else if(strcmp(str,"apply") == 0){
-
+      matrix_mult(transform,edges);
     }else if(strcmp(str,"ident") == 0){
-
+      ident(transform);
     }else if(strcmp(str,"display") == 0){
-
+      draw_lines(edges,s);
     }else if(strcmp(str,"save") == 0){
+      if( fgets(line,255,f) != NULL ){
 
-    }else if(strcmp(str,"quit") == 0){
+      }else{
+
+      }
 
     }else{
-      printf("THIS COMMAND IS BULLSHIT");
+      printf("Command does not exist");
     }
     
 	     }
