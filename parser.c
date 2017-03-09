@@ -56,7 +56,10 @@ void parse_file ( char * filename,
   FILE *f;
   char line[256];
   clear_screen(s);
-  
+  color c;
+  c.red = 0;
+  c.green = 250;
+  c.blue = 0;
   if ( strcmp(filename, "stdin") == 0 ) 
     f = stdin;
   else
@@ -65,55 +68,74 @@ void parse_file ( char * filename,
   while ( fgets(line, 255, f) != NULL ) {
     line[strlen(line)-1]='\0';
     printf(":%s:\n",line);
-    char * str;
-    str = strsep(&line, " ");
-    //while( (str = strsep(&line," ")) != NULL ){
+    char * temp = line;
     
-    if(strcmp(str,"move") == 0){
+    if(strcmp(line,"move") == 0){
       if( fgets(line,255,f) != NULL ){
 	double tx,ty,tz;
-	tx = atof(strsep(&str,line));
-	ty = atof(strsep(&str,line));
-        tz = atof(strsep(&str,line));
-        struct matrix * trans = make
+	tx = atof(strsep(&temp, " "));
+	ty = atof(strsep(&temp, " "));
+        tz = atof(strsep(&temp, " "));
+        struct matrix * translate = make_translate(tx,ty,tz);
+	matrix_mult(translate, transform);
       }else{
 
       }      
-    }else if(strcmp(str,"scale") == 0){
+    }else if(strcmp(line,"scale") == 0){
       if( fgets(line,255,f) != NULL ){
 	double sx,sy,sz;
-	sx = atof(strsep(&str,line));
-	sy = atof(strsep(&str,line));
-        sz = atof(strsep(&str,line));
-        struct matrix * scale = make
+	sx = atof(strsep(&temp, " "));
+	sy = atof(strsep(&temp, " "));
+        sz = atof(strsep(&temp, " "));
+        struct matrix * scale=  make_scale(sx,sy,sz);
+	matrix_mult(scale, transform);
       }else{
 
       }
 
-    }else if(strcmp(str,"rotate") == 0){
+    }else if(strcmp(line,"rotate") == 0){
       if( fgets(line,255,f) != NULL ){
-	char axis;
-	int theta;
+	char *axis;
+	double theta;
+	struct matrix * rotate;
+	axis = strsep(&temp, " ");
+	theta = atof(strsep(&temp, " "));
+	if(axis[0] == 'x' || axis[0] == 'X'){
+	  rotate = make_rotX(theta);
+	}else if(axis[0] == 'y' || axis[0] =='Y'){
+	  rotate = make_rotY(theta);
+	}else if(axis[0] == 'z' || axis[0] =='Z'){
+	  rotate = make_rotZ(theta);
+	}else{
+	  printf("Input a valid rotation axis");
+	  rotate = new_matrix(4,4);
+	  ident(rotate);
+	} 	      
       }else{
 
       }
-
-    }else if(strcmp(str,"line") == 0){
+    }else if(strcmp(line,"line") == 0){
       if( fgets(line,255,f) != NULL ){
 	double x0,y0,z0,x1,y1,z1;
-	
+	x0 = atof(strsep(&temp, " "));
+        y0 = atof(strsep(&temp, " "));
+        z0 = atof(strsep(&temp, " "));
+	x1 = atof(strsep(&temp, " "));
+        y1 = atof(strsep(&temp, " "));
+        z1 = atof(strsep(&temp, " "));
+	add_edge(edges,x0,y0,z0,x1,y1,z1);
       }else{
 	
       }
-    }else if(strcmp(str,"apply") == 0){
+    }else if(strcmp(line,"apply") == 0){
       matrix_mult(transform,edges);
-    }else if(strcmp(str,"ident") == 0){
+    }else if(strcmp(line,"ident") == 0){
       ident(transform);
-    }else if(strcmp(str,"display") == 0){
-      draw_lines(edges,s);
-    }else if(strcmp(str,"save") == 0){
+    }else if(strcmp(line,"display") == 0){
+      draw_lines(edges,s,c);
+    }else if(strcmp(line,"save") == 0){
       if( fgets(line,255,f) != NULL ){
-
+	
       }else{
 
       }
@@ -121,7 +143,5 @@ void parse_file ( char * filename,
     }else{
       printf("Command does not exist");
     }
-    
-	     }
   }
 }
