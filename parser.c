@@ -72,6 +72,7 @@ void parse_file ( char * filename,
     
     if(strcmp(line,"move") == 0){
       if( fgets(line,255,f) != NULL ){
+	printf("%s",line);
 	double tx,ty,tz;
 	tx = atof(strsep(&temp, " "));
 	ty = atof(strsep(&temp, " "));
@@ -83,6 +84,7 @@ void parse_file ( char * filename,
       }      
     }else if(strcmp(line,"scale") == 0){
       if( fgets(line,255,f) != NULL ){
+	printf("%s",line);
 	double sx,sy,sz;
 	sx = atof(strsep(&temp, " "));
 	sy = atof(strsep(&temp, " "));
@@ -95,6 +97,7 @@ void parse_file ( char * filename,
 
     }else if(strcmp(line,"rotate") == 0){
       if( fgets(line,255,f) != NULL ){
+	printf("%s",line);
 	char *axis;
 	double theta;
 	struct matrix * rotate;
@@ -102,10 +105,13 @@ void parse_file ( char * filename,
 	theta = atof(strsep(&temp, " "));
 	if(axis[0] == 'x' || axis[0] == 'X'){
 	  rotate = make_rotX(theta);
+	  matrix_mult(rotate,transform);
 	}else if(axis[0] == 'y' || axis[0] =='Y'){
 	  rotate = make_rotY(theta);
+	  matrix_mult(rotate,transform);
 	}else if(axis[0] == 'z' || axis[0] =='Z'){
 	  rotate = make_rotZ(theta);
+	  matrix_mult(rotate,transform);
 	}else{
 	  printf("Input a valid rotation axis");
 	  rotate = new_matrix(4,4);
@@ -116,6 +122,7 @@ void parse_file ( char * filename,
       }
     }else if(strcmp(line,"line") == 0){
       if( fgets(line,255,f) != NULL ){
+	printf("%s",line);
 	double x0,y0,z0,x1,y1,z1;
 	x0 = atof(strsep(&temp, " "));
         y0 = atof(strsep(&temp, " "));
@@ -137,6 +144,7 @@ void parse_file ( char * filename,
       display(s);
     }else if(strcmp(line,"save") == 0){
       if( fgets(line,255,f) != NULL ){
+	printf("%s",line);
 	
       }else{
 
