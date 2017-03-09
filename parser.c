@@ -132,7 +132,9 @@ void parse_file ( char * filename,
     }else if(strcmp(line,"ident") == 0){
       ident(transform);
     }else if(strcmp(line,"display") == 0){
+      clear_screen(s);
       draw_lines(edges,s,c);
+      display(s);
     }else if(strcmp(line,"save") == 0){
       if( fgets(line,255,f) != NULL ){
 	
