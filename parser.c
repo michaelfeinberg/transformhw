@@ -72,12 +72,20 @@ void parse_file ( char * filename,
     if(strcmp(str,"move") == 0){
       if( fgets(line,255,f) != NULL ){
 	double tx,ty,tz;
+	tx = atof(strsep(&str,line));
+	ty = atof(strsep(&str,line));
+        tz = atof(strsep(&str,line));
+        struct matrix * trans = make
       }else{
 
       }      
     }else if(strcmp(str,"scale") == 0){
       if( fgets(line,255,f) != NULL ){
 	double sx,sy,sz;
+	sx = atof(strsep(&str,line));
+	sy = atof(strsep(&str,line));
+        sz = atof(strsep(&str,line));
+        struct matrix * scale = make
       }else{
 
       }
